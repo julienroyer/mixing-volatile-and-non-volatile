@@ -10,6 +10,10 @@ import org.openjdk.jmh.annotations.Threads;
 //https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java
 @Threads(10)
 public class MyBenchmark {
+	public @Benchmark String baseline() {
+		return null;
+	}
+
 	@State(Benchmark)
 	public static class UsingVolatile {
 		volatile String name;
