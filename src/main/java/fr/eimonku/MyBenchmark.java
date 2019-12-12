@@ -65,7 +65,7 @@ public class MyBenchmark {
 	}
 
 	@Benchmark
-	public String mixingVolatileAndNonVolatile(final UsingVolatile o1, final MixingVolatileAndNonVolatile o2) {
+	public String mixingVolatileAndNonVolatile() {
 		return mixingVolatileAndNonVolatile.getValue();
 	}
 }
