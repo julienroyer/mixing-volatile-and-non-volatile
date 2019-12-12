@@ -8,11 +8,6 @@ import org.openjdk.jmh.annotations.Threads;
 
 @Threads(10)
 public class MyBenchmark {
-	@Benchmark
-	public String baseline(final UsingVolatile o1, final MixingVolatileAndNonVolatile o2) {
-		return null;
-	}
-
 	@State(Benchmark)
 	public static class UsingVolatile {
 		volatile String name;
@@ -20,11 +15,6 @@ public class MyBenchmark {
 		String getName() {
 			return name;
 		}
-	}
-
-	@Benchmark
-	public String usingVolatile(final UsingVolatile o) {
-		return o.getName();
 	}
 
 	@State(Benchmark)
@@ -36,6 +26,16 @@ public class MyBenchmark {
 			final String name = nonVolatileName;
 			return name != null ? name : volatileName;
 		}
+	}
+
+	@Benchmark
+	public String baseline(final UsingVolatile o1, final MixingVolatileAndNonVolatile o2) {
+		return null;
+	}
+
+	@Benchmark
+	public String usingVolatile(final UsingVolatile o) {
+		return o.getName();
 	}
 
 	@Benchmark
