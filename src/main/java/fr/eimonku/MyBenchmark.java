@@ -1,45 +1,71 @@
 package fr.eimonku;
 
+import static org.openjdk.jmh.annotations.Level.Iteration;
 import static org.openjdk.jmh.annotations.Scope.Benchmark;
 
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 
 @Threads(10)
+@State(Benchmark)
 public class MyBenchmark {
-	@State(Benchmark)
 	public static class UsingVolatile {
-		volatile String name;
+		private volatile String volatileValue;
 
-		String getName() {
-			return name;
+		public String getValue() {
+			return volatileValue;
+		}
+
+		public void initValue(final String v) {
+			volatileValue = v;
 		}
 	}
 
-	@State(Benchmark)
 	public static class MixingVolatileAndNonVolatile {
-		String nonVolatileName;
-		volatile String volatileName;
+		private String nonVolatileValue;
+		private volatile String volatileValue;
 
-		String getName() {
-			final String name = nonVolatileName;
-			return name != null ? name : volatileName;
+		String getValue() {
+			final String value = nonVolatileValue;
+			return value != null ? value : volatileValue;
+		}
+
+		void initValue(final String v) {
+			nonVolatileValue = v;
+			volatileValue = v;
+		}
+	}
+
+	@Param({ "false", "true" })
+	public boolean nonNullValue;
+	public UsingVolatile usingVolatile;
+	public MixingVolatileAndNonVolatile mixingVolatileAndNonVolatile;
+
+	@Setup(Iteration)
+	public void up() {
+		usingVolatile = new UsingVolatile();
+		mixingVolatileAndNonVolatile = new MixingVolatileAndNonVolatile();
+		if (nonNullValue) {
+			usingVolatile.initValue("");
+			mixingVolatileAndNonVolatile.initValue("");
 		}
 	}
 
 	@Benchmark
-	public String baseline(final UsingVolatile o1, final MixingVolatileAndNonVolatile o2) {
+	public String baseline() {
 		return null;
 	}
 
 	@Benchmark
-	public String usingVolatile(final UsingVolatile o) {
-		return o.getName();
+	public String usingVolatile() {
+		return usingVolatile.getValue();
 	}
 
 	@Benchmark
-	public String mixingVolatileAndNonVolatile(final MixingVolatileAndNonVolatile o) {
-		return o.getName();
+	public String mixingVolatileAndNonVolatile(final UsingVolatile o1, final MixingVolatileAndNonVolatile o2) {
+		return mixingVolatileAndNonVolatile.getValue();
 	}
 }
