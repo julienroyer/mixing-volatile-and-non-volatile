@@ -6,11 +6,10 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Threads;
 
-//https://blog.soat.fr/2015/07/benchmark-java-introduction-a-jmh/
-//https://stackoverflow.com/questions/504103/how-do-i-write-a-correct-micro-benchmark-in-java
 @Threads(10)
 public class MyBenchmark {
-	public @Benchmark String baseline() {
+	@Benchmark
+	public String baseline(final UsingVolatile o1, final MixingVolatileAndNonVolatile o2) {
 		return null;
 	}
 
@@ -23,7 +22,8 @@ public class MyBenchmark {
 		}
 	}
 
-	public @Benchmark String usingVolatile(final UsingVolatile o) {
+	@Benchmark
+	public String usingVolatile(final UsingVolatile o) {
 		return o.getName();
 	}
 
@@ -38,7 +38,8 @@ public class MyBenchmark {
 		}
 	}
 
-	public @Benchmark String mixingVolatileAndNonVolatile(final MixingVolatileAndNonVolatile o) {
+	@Benchmark
+	public String mixingVolatileAndNonVolatile(final MixingVolatileAndNonVolatile o) {
 		return o.getName();
 	}
 }
