@@ -1,0 +1,5 @@
+Benchmark                                 (nonNullValue)   Mode  Cnt           Score          Error  Units
+MyBenchmark.mixingVolatileAndNonVolatile           false  thrpt   25  1057352984.335 ± 66000058.405  ops/s
+MyBenchmark.mixingVolatileAndNonVolatile            true  thrpt   25  1092651220.651 ± 20702719.314  ops/s
+MyBenchmark.usingVolatile                          false  thrpt   25  1101196478.723 ± 38893071.706  ops/s
+MyBenchmark.usingVolatile                           true  thrpt   25  1004073360.600 ± 62706665.720  ops/s
