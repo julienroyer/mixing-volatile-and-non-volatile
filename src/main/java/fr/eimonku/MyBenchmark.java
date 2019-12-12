@@ -55,11 +55,6 @@ public class MyBenchmark {
 	}
 
 	@Benchmark
-	public String baseline() {
-		return null;
-	}
-
-	@Benchmark
 	public String usingVolatile() {
 		return usingVolatile.getValue();
 	}
